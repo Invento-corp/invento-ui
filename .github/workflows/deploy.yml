@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production  #this triggers the approval requirement
 
     steps:
       - name: Checkout code
