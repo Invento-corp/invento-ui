@@ -1,0 +1,44 @@
+<section class="wrap">
+  <h2>Items</h2>
+
+  <div class="card">
+    <h3>Add item</h3>
+    <div class="grid">
+      <label>ID <input [(ngModel)]="form.id" placeholder="e.g., A1001" /></label>
+      <label>Name <input [(ngModel)]="form.name" placeholder="e.g., Rice Bag" /></label>
+      <label>Qty <input [(ngModel)]="form.qty" type="number" /></label>
+      <label>Unit 
+        <select [(ngModel)]="form.unit">
+          <option value="pcs">pcs</option>
+          <option value="kg">kg</option>
+          <option value="ltr">ltr</option>
+        </select>
+      </label>
+      <button (click)="create()" [disabled]="busy || !auth.isLoggedIn()">Create</button>
+    </div>
+    <small *ngIf="!auth.isLoggedIn()">Login to modify inventory.</small>
+  </div>
+
+  <div class="card" *ngIf="items?.length">
+    <h3>Inventory</h3>
+    <table>
+      <thead><tr><th>ID</th><th>Name</th><th>Qty</th><th>Unit</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let it of items">
+          <td>{{it.id}}</td>
+          <td>{{it.name}}</td>
+          <td>{{it.qty}}</td>
+          <td>{{it.unit}}</td>
+          <td class="actions">
+            <button (click)="adjust(it, +1)" [disabled]="busy || !auth.isLoggedIn()">+1</button>
+            <button (click)="adjust(it, -1)" [disabled]="busy || !auth.isLoggedIn()">-1</button>
+            <button (click)="remove(it)" [disabled]="busy || !auth.isLoggedIn()">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="!items?.length && !busy">No items yet.</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+</section>
